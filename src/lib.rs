@@ -114,7 +114,7 @@ pub fn editor_plugin(args: TokenStream, input: TokenStream) -> TokenStream {
 
                     fields.named.push(
                         syn::Field::parse_named
-                            .parse2(quote! { __execution_behaviour: rust_internal::PluginExecutionBehaviour })
+                            .parse2(quote! { __execution_behaviour: editall_internal::PluginExecutionBehaviour })
                             .unwrap_or_else(|_| abort!(fields, "Not possible to add to fields")),
                     );
                 }
@@ -132,7 +132,7 @@ pub fn editor_plugin(args: TokenStream, input: TokenStream) -> TokenStream {
             };
 
             return quote! {
-                #[derive(rust_macro::PluginWithOptions)]
+                #[derive(editall_macro::PluginWithOptions)]
                 #type_trait
                 #skip
 

@@ -178,7 +178,7 @@ fn produce_default_impl(
     // Used for the default impl function
     let mut defaults: Vec<TokenStream2> = vec![];
     defaults.push(quote! { __enabled: std::rc::Rc::new(RefCell::new(true)) });
-    defaults.push(quote! { __execution_behaviour: rust_internal::PluginExecutionBehaviour::#execution_behaviour });
+    defaults.push(quote! { __execution_behaviour: editall_internal::PluginExecutionBehaviour::#execution_behaviour });
 
     // Now for all attributes defined be the plugin developer
     for (attr, ty, metas) in attrs {
@@ -306,8 +306,8 @@ fn produce_use_statements(crate_name: &Ident) -> TokenStream2 {
     quote! {
         use std::ops::Deref;
         use yew::{html, Html, Callback, Context};
-        use rust_internal::ui::textbox::TextBox;
-        use rust_internal::ui::{numberbox::NumberBox, checkbox::Checkbox};
+        use editall_internal::ui::textbox::TextBox;
+        use editall_internal::ui::{numberbox::NumberBox, checkbox::Checkbox};
         use #crate_name::ui::app::App;
         use #crate_name::ui::app::EditorMessages;
         use #crate_name::plugins::plugin::SpecialKey;
@@ -321,10 +321,10 @@ fn produce_use_statements(crate_name: &Ident) -> TokenStream2 {
 fn crate_name() -> Ident {
     let crate_name = std::env::var("CARGO_PKG_NAME").unwrap();
     let crate_name = Ident::new(
-        if &crate_name[..] == "rust_editor" {
+        if &crate_name[..] == "editall_editor" {
             "crate"
         } else {
-            "rust_editor"
+            "editall_editor"
         },
         Span::call_site(),
     );
@@ -384,7 +384,7 @@ pub(crate) fn produce(
                 #enabled_impl
                 #ui_impl
 
-                fn execution_behaviour(&self) -> &rust_internal::PluginExecutionBehaviour {
+                fn execution_behaviour(&self) -> &editall_internal::PluginExecutionBehaviour {
                     &self.__execution_behaviour
                 }
             }
